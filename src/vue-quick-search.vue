@@ -99,7 +99,7 @@ export default {
   computed: {
     activeSearchUrl () {
       const regex = new RegExp('(.[^?]*)[?](.*)')
-      const url = this.url.replace('|val|', this.searchTerm)
+      const url = this.url.replace(/\|val\|/g, this.searchTerm)
       const matches = url.match(regex)
       if (!matches) {
         return url
@@ -125,7 +125,7 @@ export default {
       return !this.searchTerm
     },
     fullSearchQuery () {
-      const url = this.url.replace('|val|', this.searchTerm)
+      const url = this.url.replace(/\|val\|/g, this.searchTerm)
       const regex = new RegExp(`${this.formInputName}=(.[^&]*)`)
       const match = url.match(regex)
       return match[1]
@@ -136,7 +136,7 @@ export default {
       this.isLoading = true
       this.initialState && (this.initialState = false)
       this.activeAjaxRequest && this.activeAjaxRequest.abort()
-      const url = `${this.url.replace('|val|', this.searchTerm)}`
+      const url = `${this.url.replace(/\|val\|/g, this.searchTerm)}`
       this.getResults(this.filterAJAXUrl(url), this.onResponse)
     },
     onResponse (code, res) {
