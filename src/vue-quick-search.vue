@@ -5,6 +5,29 @@ function getResults (url, callback) {
   nanoajax.ajax({url}, callback)
 }
 
+function handleize (str) {
+  str = str.toLowerCase();
+
+  var toReplace = ['"', "'", "\\", "(", ")", "[", "]"];
+
+  // For the old browsers
+  for (var i = 0; i < toReplace.length; ++i) {
+      str = str.replace(toReplace[i], "");
+  }
+
+  str = str.replace(/\W+/g, "-");
+
+  if (str.charAt(str.length - 1) == "-") {
+      str = str.replace(/-+\z/, "");
+  }
+
+  if (str.charAt(0) == "-") {
+      str = str.replace(/\A-+/, "");
+  }
+
+  return str
+}
+
 export default {
   name: 'vue-quick-search',
   props: {
@@ -99,7 +122,7 @@ export default {
   computed: {
     activeSearchUrl () {
       const regex = new RegExp('(.[^?]*)[?](.*)')
-      const url = this.url.replace(/\|val\|/g, this.searchTerm)
+      const url = this.url.replace(/\|val\|/g, this.searchTerm).replace(/\|handleized\|/g, handleize(this.searchTerm))
       const matches = url.match(regex)
       if (!matches) {
         return url
@@ -125,7 +148,7 @@ export default {
       return !this.searchTerm
     },
     fullSearchQuery () {
-      const url = this.url.replace(/\|val\|/g, this.searchTerm)
+      const url = this.url.replace(/\|val\|/g, this.searchTerm).replace(/\|handleized\|/g, handleize(this.searchTerm))
       const regex = new RegExp(`${this.formInputName}=(.[^&]*)`)
       const match = url.match(regex)
       return match[1]
@@ -136,7 +159,7 @@ export default {
       this.isLoading = true
       this.initialState && (this.initialState = false)
       this.activeAjaxRequest && this.activeAjaxRequest.abort()
-      const url = `${this.url.replace(/\|val\|/g, this.searchTerm)}`
+      const url = `${this.url.replace(/\|val\|/g, this.searchTerm).replace(/\|handleized\|/g, handleize(this.searchTerm))}`
       this.getResults(this.filterAJAXUrl(url), this.onResponse)
     },
     onResponse (code, res) {
