@@ -121,7 +121,7 @@ export default {
     }
   },
   created () {
-    this.debouncedSearch = debounce(() => this.prepareGetResults(), 300)
+    this.debouncedSearch = debounce(() => this.prepareGetResults(), 150)
   },
   computed: {
     activeSearchUrl () {
