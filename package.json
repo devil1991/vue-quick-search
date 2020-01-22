@@ -1,6 +1,6 @@
 {
   "name": "vue-quick-search-all-vals",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "A Vue quick search module",
   "source": "src/vue-quick-search.vue",
   "main": "dist/vueQuickSearch.umd.min.js",
@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "eslint-plugin-vue": "^5.2.3",
+    "lodash.debounce": "^4.0.8",
     "nanoajax": "^0.4.3"
   }
 }

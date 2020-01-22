@@ -1,5 +1,6 @@
 <script>
 import nanoajax from 'nanoajax'
+import debounce from 'lodash.debounce'
 
 function getResults (url, callback) {
   nanoajax.ajax({url}, callback)
@@ -155,13 +156,13 @@ export default {
     }
   },
   methods: {
-    prepareGetResults () {
+    prepareGetResults:  debounce(() => {
       this.isLoading = true
       this.initialState && (this.initialState = false)
       this.activeAjaxRequest && this.activeAjaxRequest.abort()
       const url = `${this.url.replace(/\|val\|/g, this.searchTerm).replace(/\|handleized\|/g, handleize(this.searchTerm))}`
       this.getResults(this.filterAJAXUrl(url), this.onResponse)
-    },
+    }, 500),
     onResponse (code, res) {
       if (res !== 'Abort' && res !== 'Error') {
         this.isLoading = false
