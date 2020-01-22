@@ -160,7 +160,6 @@ export default {
   },
   methods: {
     prepareGetResults () {
-      console.log('SEACH')
       this.isLoading = true
       this.initialState && (this.initialState = false)
       this.activeAjaxRequest && this.activeAjaxRequest.abort()
